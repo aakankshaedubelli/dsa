@@ -1,0 +1,76 @@
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+    Node(int val) {
+        data = val;
+        next = nullptr;
+    }
+};
+
+class Stack {
+    Node* top;
+public:
+    Stack() {
+        top = nullptr;
+    }
+    void push(int val) {
+        Node* newNode = new Node(val);
+        newNode->next = top;
+        top = newNode;
+    }
+    void pop() {
+        if (!top) {
+            cout << "Stack underflow\n";
+            return;
+        }
+        Node* temp = top;
+        top = top->next;
+        delete temp;
+    }
+    int peek() {
+        if (!top) {
+            cout << "Stack is empty\n";
+            return -1;
+        }
+        return top->data;
+    }
+    bool isEmpty() {
+        return top == nullptr;
+    }
+    void display() {
+        if (!top) {
+            cout << "Stack is empty\n";
+            return;
+        }
+        Node* temp = top;
+        cout << "Stack (top to bottom): ";
+        while (temp) {
+            cout << temp->data << " ";
+            temp = temp->next;
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    Stack s;
+    int n, val;
+    cout << "Enter number of elements to push: ";
+    cin >> n;
+    for (int i = 0; i < n; i++) {
+        cout << "Enter element " << i + 1 << ": ";
+        cin >> val;
+        s.push(val);
+    }
+    s.display();
+    cout << "Performing pop operation...\n";
+    s.pop();
+    s.display();
+    cout << "Top element after pop: " << s.peek() << endl;
+    cout << (s.isEmpty() ? "Stack is empty\n" : "Stack is not empty\n");
+    return 0;
+}
