@@ -1,0 +1,102 @@
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+
+    Node(int value) {
+        data = value;
+        next = nullptr;
+    }
+};
+
+class Queue {
+    Node* front;  // Points to the front of the queue
+    Node* rear;   // Points to the rear of the queue
+    int size;
+
+public:
+    Queue() {
+        front = rear = nullptr;
+        size = 0;
+    }
+
+    void enqueue(int value) {
+        Node* newNode = new Node(value);
+        if (rear == nullptr) { // Queue is empty
+            front = rear = newNode;
+        } else {
+            rear->next = newNode;
+            rear = newNode;
+        }
+        size++;
+    }
+
+    void dequeue() {
+        if (isEmpty()) {
+            cout << "Queue underflow" << endl;
+            return;
+        }
+
+        Node* temp = front;
+        front = front->next;
+        delete temp;
+        size--;
+    }
+
+    int peek() {
+        if (isEmpty()) {
+            cout << "Queue is empty." << endl;
+            return -1;
+        }
+        return front->data;
+    }
+
+    bool isEmpty() {
+        return front == nullptr;
+    }
+
+    int getSize() {
+        return size;
+    }
+
+    void display() {
+        if (isEmpty()) {
+            cout << "Queue is empty." << endl;
+            return;
+        }
+
+        cout << "Queue (front to rear): ";
+        Node* temp = front;
+        while (temp != nullptr) {
+            cout << temp->data << " ";
+            temp = temp->next;
+        }
+        cout << endl;
+    }
+};
+int main() {
+    Queue q;
+
+    q.enqueue(10);
+    q.enqueue(20);
+    q.enqueue(30);
+    q.display(); // Output: 10 20 30
+
+    q.dequeue();
+    q.display(); // Output: 20 30
+
+    cout << "Front element: " << q.peek() << endl; // Output: 20
+
+    cout << "Queue size: " << q.getSize() << endl; // Output: 2
+
+    if (q.isEmpty()) {
+        cout << "Queue is empty." << endl;
+    } else {
+        cout << "Queue is not empty." << endl;
+    }
+
+    return 0;
+}
