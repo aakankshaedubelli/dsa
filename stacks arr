@@ -1,0 +1,96 @@
+#include <iostream>
+using namespace std;
+
+class Queue {
+private:
+    int* arr;
+    int front;
+    int rear;
+    int size;
+    int capacity;
+
+public:
+    Queue(int capacity) {
+        this->capacity = capacity;
+        arr = new int[capacity];
+        front = 0;
+        rear = -1;
+        size = 0;
+    }
+
+    void enqueue(int element) {
+        if (isFull()) {
+            cout << "Queue overflow" << endl;
+            return;
+        }
+        rear = (rear + 1) % capacity;
+        arr[rear] = element;
+        size++;
+    }
+
+    void dequeue() {
+        if (isEmpty()) {
+            cout << "Queue underflow" << endl;
+            return;
+        }
+        front = (front + 1) % capacity;
+        size--;
+    }
+
+    int peek() {
+        if (isEmpty()) {
+            cout << "Queue is empty." << endl;
+            return -1;
+        }
+        return arr[front];
+    }
+
+    bool isEmpty() {
+        return size == 0;
+    }
+
+    bool isFull() {
+        return size == capacity;
+    }
+
+    void display() {
+        if (isEmpty()) {
+            cout << "Queue is empty." << endl;
+            return;
+        }
+        cout << "Queue (front to rear): ";
+        for (int i = 0; i < size; i++) {
+            cout << arr[(front + i) % capacity] << " ";
+        }
+        cout << endl;
+    }
+
+    
+};
+
+int main() {
+    Queue q(5);
+    q.enqueue(10);
+    q.enqueue(20);
+    q.enqueue(30);
+    q.display();
+
+    q.dequeue();
+    q.display();
+
+    cout << "Front element: " << q.peek() << endl;
+
+    if (q.isEmpty()) {
+        cout << "Queue is empty." << endl;
+    } else {
+        cout << "Queue is not empty." << endl;
+    }
+
+    if (q.isFull()) {
+        cout << "Queue is full." << endl;
+    } else {
+        cout << "Queue is not full." << endl;
+    }
+
+    return 0;
+}
